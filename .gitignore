@@ -45,3 +45,7 @@ test/testwin
 test/testwm
 test/threadwin
 test/torturethread
+
+configure
+include/SDL_config.h
+test/configure
