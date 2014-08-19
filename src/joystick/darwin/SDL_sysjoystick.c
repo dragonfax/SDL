@@ -182,7 +182,7 @@ static IOReturn HIDCreateOpenDeviceInterface (io_object_t hidDevice, recDevice *
 			plugInResult = (*ppPlugInInterface)->QueryInterface (ppPlugInInterface,
 								CFUUIDGetUUIDBytes (kIOHIDDeviceInterfaceID), (void *) &(pDevice->interface));
 			if (S_OK != plugInResult)
-				HIDReportErrorNum ("CouldnÕt query HID class device interface from plugInInterface", plugInResult);
+				HIDReportErrorNum ("Couldnï¿½t query HID class device interface from plugInInterface", plugInResult);
 			(*ppPlugInInterface)->Release (ppPlugInInterface);
 		}
 		else
@@ -648,13 +648,13 @@ int SDL_SYS_JoystickInit(void)
 */
 
 		/* Filter device list to non-keyboard/mouse stuff */ 
-		if ( ( (device->usagePage != kHIDPage_GenericDesktop) ||
-                 ((device->usage != kHIDUsage_GD_Joystick &&
-                  device->usage != kHIDUsage_GD_GamePad &&
-                  device->usage != kHIDUsage_GD_MultiAxisController))
-             ) && (
-                (device->usagePage != kHIDPage_Consumer) || (device->usage != kHIDUsage_GD_Pointer)
+		if ( ! ( (device->usagePage == kHIDPage_GenericDesktop) &&
+                 ((device->usage == kHIDUsage_GD_Joystick ||
+                  device->usage == kHIDUsage_GD_GamePad ||
+                  device->usage == kHIDUsage_GD_MultiAxisController))
              )
+             &&
+             ! ( (device->usagePage == kHIDPage_Consumer) && (device->usage == kHIDUsage_GD_Pointer) && strncmp(device->product,"Griffin PowerMate",256) == 0 )
           ) {
 
 			/* release memory for the device */
